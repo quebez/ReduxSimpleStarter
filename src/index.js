@@ -1,31 +1,19 @@
-import React, { Component } from 'react';
+//Import JS modules
+import React from 'react'; //go find a lib react in node_modules and assign it a name React
 import ReactDOM from 'react-dom';
-import YTSearch from 'youtube-api-search';
 
 import SearchBar from './components/search_bar';
-import VideoList from './components/video_list';
 
 const API_KEY = 'AIzaSyANoFiZdkhlG2V-vCIH7NaB7Bgvtn8ewZc';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { videos: [] };
-
-    YTSearch({ key: API_KEY, term: 'random'}, (videos) => {
-      this.setState({ videos }); //this.setState({ videos: videos }) same variable name
-    });
-  }
-
-  render() {
-    return (
-      <div>
-          <SearchBar />
-          <VideoList videos={this.state.videos} /> 
-      </div> //pass data from parent App to child VideoList
-    )
-  };
+//Create a new component producing some HTML
+const App = () => { //App CLASS, <App /> INSTANCE;  function(){} is the same as () =>{}
+  return (
+    <div>
+        <SearchBar />
+    </div>
+  ); //react calls from JSX - React.createElement()
 }
 
+//Take this HTML element and put it in DOM
 ReactDOM.render(<App />, document.querySelector('.container'));
