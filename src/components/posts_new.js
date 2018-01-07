@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';//reduxForm simmilar to connect helper
 import { Link } from 'react-router-dom';
-//reduxForm simmilar to connect helper
+import { connect } from 'react-redux';
+
+import { createPost } from '../actions';
 
 class PostsNew extends Component {
     renderField(field) {
@@ -24,8 +26,10 @@ class PostsNew extends Component {
     }
 
     onSubmit(values) {
-        //this === component
-        console.log(values);
+        //this.props.history.push('/'); //go to the root route immidiately
+        this.props.createPost(values, () => {
+            this.props.history.push('/'); //callback function, define in actions
+        });
     }
 
     render() {
@@ -72,8 +76,17 @@ function validate(values) {
      return errors;
 }
 
+/* Without connect helper
 export default reduxForm({
     //config
     validate, //validate:validate and assings errors to Field name
     form: 'PostsNewForm' //unique string, different forms + same time - works correctly
 })(PostsNew); //ability to communicate directly to the reducer
+*/
+
+export default reduxForm({
+    validate,
+    form: 'PostsNewForm'
+})(
+    connect(null, { createPost })(PostsNew)
+);
